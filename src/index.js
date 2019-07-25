@@ -1,15 +1,15 @@
-import React, { Component, forwardRef } from "react";
-import PropTypes from "prop-types";
-import { findDOMNode } from "react-dom";
-import throttle from "lodash.throttle";
-import raf from "raf";
-import getDisplayName from "react-display-name";
+import React, { Component, forwardRef } from 'react';
+import PropTypes from 'prop-types';
+import { findDOMNode } from 'react-dom';
+import throttle from 'lodash.throttle';
+import raf from 'raf';
+import getDisplayName from 'react-display-name';
 
 //import { DragDropContextConsumer } from 'react-dnd';
-import { DragDropContextConsumer } from "react-dnd-cjs";
+import { DragDropContextConsumer } from 'react-dnd-cjs';
 
-import hoist from "hoist-non-react-statics";
-import { noop, intBetween, getCoords } from "./util";
+import hoist from 'hoist-non-react-statics';
+import { noop, intBetween, getCoords } from './util';
 
 const DEFAULT_BUFFER = 150;
 
@@ -128,14 +128,14 @@ export function createScrollingComponent(WrappedComponent) {
 
       if (
         this.container &&
-        typeof this.container.addEventListener === "function"
+        typeof this.container.addEventListener === 'function'
       ) {
-        this.container.addEventListener("dragover", this.handleEvent);
+        this.container.addEventListener('dragover', this.handleEvent);
       }
 
       // touchmove events don't seem to work across siblings, so we unfortunately
       // have to attach the listeners to the body
-      window.document.body.addEventListener("touchmove", this.handleEvent);
+      window.document.body.addEventListener('touchmove', this.handleEvent);
 
       const { dragDropManager } = this.props;
       this.clearMonitorSubscription = dragDropManager
@@ -146,12 +146,12 @@ export function createScrollingComponent(WrappedComponent) {
     componentWillUnmount() {
       if (
         this.container &&
-        typeof this.container.removeEventListener === "function"
+        typeof this.container.removeEventListener === 'function'
       ) {
-        this.container.removeEventListener("dragover", this.handleEvent);
+        this.container.removeEventListener('dragover', this.handleEvent);
       }
 
-      window.document.body.removeEventListener("touchmove", this.handleEvent);
+      window.document.body.removeEventListener('touchmove', this.handleEvent);
       this.clearMonitorSubscription();
       this.stopScrolling();
     }
@@ -177,18 +177,18 @@ export function createScrollingComponent(WrappedComponent) {
 
     attach() {
       this.attached = true;
-      window.document.body.addEventListener("dragover", this.updateScrolling);
-      window.document.body.addEventListener("touchmove", this.updateScrolling);
+      window.document.body.addEventListener('dragover', this.updateScrolling);
+      window.document.body.addEventListener('touchmove', this.updateScrolling);
     }
 
     detach() {
       this.attached = false;
       window.document.body.removeEventListener(
-        "dragover",
+        'dragover',
         this.updateScrolling
       );
       window.document.body.removeEventListener(
-        "touchmove",
+        'touchmove',
         this.updateScrolling
       );
     }
@@ -277,15 +277,15 @@ export default function createScrollingComponentWithConsumer(WrappedComponent) {
   const ScrollingComponent = createScrollingComponent(WrappedComponent);
   return forwardRef((props, ref) => (
     <DndContext.Consumer>
-      {({ dragDropManager }) =>
-        dragDropManager === undefined ? null : (
+      {({ dragDropManager }) => {
+        return dragDropManager === undefined ? null : (
           <ScrollingComponent
             {...props}
             ref={ref}
             dragDropManager={dragDropManager}
           />
-        )
-      }
+        );
+      }}
     </DndContext.Consumer>
   ));
 }
